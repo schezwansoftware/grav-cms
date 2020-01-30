@@ -1,0 +1,11 @@
+version: '3'
+services:
+    grav-cms:
+       image: docker-grav
+       user: root
+       build: ./
+       volumes:
+        - /home/green-arrow/Music/grav-cms/data:/var/www/html
+       ports:
+         - 8080:80  
+    
