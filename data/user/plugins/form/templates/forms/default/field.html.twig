@@ -10,11 +10,11 @@
     {% set toggleable = field.toggleable ?? false %}
     {% if toggleable %}
         {% set originalValue = originalValue is defined ? originalValue : value %}
-        {% set toggleableChecked = originalValue is not null and originalValue is not empty %}
+        {% set toggleableChecked = originalValue is not null %}
     {% elseif field.overridable %}
         {% set toggleable = true %}
         {% set default = form.getDefaultValue(field.name) ?? field.default %}
-        {% set toggleableChecked = value != default %}
+        {% set toggleableChecked = value is not null and value != default %}
     {% endif %}
 
     {% set cookie_name = 'forms-' ~ form.name ~ '-' ~ field.name %}
@@ -91,7 +91,7 @@
 
 {# Field Label #}
 {% set form_field_label = field.markdown ? field.label|markdown(false) : field.label %}
-{% set form_field_label = form_field_label|default(field.name|capitalize)|t|e %}
+{% set form_field_label = form_field_label|default(field.name|capitalize)|t %}
 
 {# Field Help #}
 {% if field.help %}
@@ -124,7 +124,7 @@
   {% if field.autocomplete is defined %}autocomplete="{{ field.autocomplete }}"{% endif %}
   {% if field.autocapitalize in ['off', 'characters', 'words', 'sentences'] %}autocapitalize="{{ field.autocapitalize }}"{% endif %}
   {% if field.inputmode in ['none', 'text', 'decimal', 'numeric', 'tel', 'search', 'email', 'url'] %}inputmode="{{ field.inputmode }}"{% endif %}
-  {% if field.tabindex %}tabindex="{{ field.tabindex }}" %}{% endif %}
+  {% if field.tabindex %}tabindex="{{ field.tabindex }}"{% endif %}
   {% if field.spellcheck in ['true', 'false'] %}spellcheck="{{ field.spellcheck }}"{% endif %}
   {% if required %}required="required"{% endif %}
   {% if field.validate.pattern %}pattern="{{ field.validate.pattern|e }}"{% endif %}
